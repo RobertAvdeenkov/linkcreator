@@ -76,7 +76,7 @@ def reglog(data=Body()):
                 print(type(user.password))
                 print('startes')
                 checked=str(data['age']).encode('utf-8')
-                checking=user.password
+                checking=user.password.encode('utf-8')
                 check=bcrypt.checkpw(checked, checking)
                 if not check:
                     raise HTTPException(401)
