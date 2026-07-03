@@ -67,7 +67,7 @@ def reglog(data=Body()):
                 print('start')
                 salt=bcrypt.gensalt(rounds=12)
                 pas=str(data['age']).encode('utf-8')
-                pas=bcrypt.hashpw(pas, salt)
+                pas=bcrypt.hashpw(pas, salt).decode('utf-8')
                 print('gugugugu')
                 dummy=User(name=username, password=pas)
                 db.add(dummy)
