@@ -19,7 +19,7 @@ DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///silka.db')
 engine = create_engine(DATABASE_URL)
 ouath=OAuth2PasswordBearer('reglog')
 class Base(DeclarativeBase):pass
-salt=bcrypt.gensalt()
+
 class User(Base):
     __tablename__='users'
     id=Column(Integer, primary_key=True,index=True)
@@ -65,6 +65,7 @@ def reglog(data=Body()):
             user=db.query(User).filter(User.name==username).first()
             if not user:
                 print('start')
+                salt=bcrypt.gensalt(rounds=12)
                 pas=bcrypt.hashpw(password=str(data['age']).encode('utf-8'), salt=salt)
                 print('gugugugu')
                 dummy=User(name=username, password=pas)
@@ -73,7 +74,7 @@ def reglog(data=Body()):
             else:
                 print(type(user.password))
                 print('startes')
-                checked=bytes(data['age'], encoding='utf-8')
+                checked=bytes(str(data['age']), encoding='utf-8')
                 checking=user.password
                 checking=checking[2:-1].encode('utf-8')
                 check=bcrypt.checkpw(checked, checking)
