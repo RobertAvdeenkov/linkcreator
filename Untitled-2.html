@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Сервис</title>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <h2>Добро пожаловать в Создатель коротких ссылок+</h2>
+</body>
+
+<body>
+    <hr style="margin: 30px 0;">
+</body>
+
+<body>
+    <!-- ЧАСТЬ 1: ДОБАВЛЕНИЕ -->
+    <div id="message"></div>
+    <p>
+        Добавить задачу: <br /> 
+        <input id="username" />
+    </p>
+    <button onclick="sendAdd()">Принять</button>
+
+
+    <!-- ЧАСТЬ 2: УДАЛЕНИЕ -->
+    <div id="mess"></div>
+    <p>
+        Удалить задачу: <br /> 
+        <input id="delete" />
+    </p>
+    <button onclick="sendDelete()">Принять</button>
+
+    <script>
+        // Функция для ДОБАВЛЕНИЯ задачи
+        async function sendAdd() {
+            const username = document.getElementById("username").value;
+
+            const response = await fetch("/add", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ name: username })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            } else {
+                console.log(response);
+            }
+        }
+
+        // Функция для УДАЛЕНИЯ задачи
+        async function sendDelete() {
+            const deletename = document.getElementById("delete").value;
+
+            const response = await fetch("/del", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ del: deletename })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("mess").textContent = data.message;
+            } else {
+                console.log(response);
+            }
+        }
+    </script>
+</body>
+<p>
+<body>
+    <a href="http://127.0.0.1:8000/list">Список</a>
+</body>
+</p>
+</html>

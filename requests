@@ -1,0 +1,11 @@
+import requests
+
+# Отправляем GET-запрос
+response = requests.get('https://jsonplaceholder.typicode.com/posts/1')
+
+# Проверяем статус ответа
+if response.status_code == 200:
+    data = response.json()  # парсим JSON
+    print(data)
+else:
+    print(f"Ошибка: {response.status_code}")
