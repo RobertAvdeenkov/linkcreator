@@ -66,7 +66,8 @@ def reglog(data=Body()):
             if not user:
                 print('start')
                 salt=bcrypt.gensalt(rounds=12)
-                pas=bcrypt.hashpw(password=str(data['age']).encode('utf-8'), salt=salt)
+                pas=str(data['age']).encode('utf-8')
+                pas=bcrypt.hashpw(pas, salt)
                 print('gugugugu')
                 dummy=User(name=username, password=pas)
                 db.add(dummy)
@@ -74,9 +75,8 @@ def reglog(data=Body()):
             else:
                 print(type(user.password))
                 print('startes')
-                checked=bytes(str(data['age']), encoding='utf-8')
+                checked=str(data['age']).encode('utf-8')
                 checking=user.password
-                checking=checking[2:-1].encode('utf-8')
                 check=bcrypt.checkpw(checked, checking)
                 if not check:
                     raise HTTPException(401)
